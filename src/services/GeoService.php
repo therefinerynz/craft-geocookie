@@ -46,7 +46,7 @@ class GeoService extends Component
              // $location->cached = false;
 
              // Log this
-             GeoCookie::$plugin->logService->insertLog(LogRecord::STATUS_SUCCESS, $apiSource, @unserialize($location));
+             GeoCookie::$plugin->logService->insertLog(LogRecord::STATUS_SUCCESS, $apiSource, $location);
 
              return $location;
          }
@@ -185,7 +185,7 @@ class GeoService extends Component
 
                $cookie = $cookies->get($settings->cookieName);
 
-               return $cookie->value;
+               return $location;
            } else {
                // Log warning
                Craft::error((string)$response->getBody(), 'geocookie');
