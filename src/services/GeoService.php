@@ -162,13 +162,15 @@ class GeoService extends Component
        }
 
        $client = new \GuzzleHttp\Client([
-           'base_uri' => $clientUrl,
            'http_errors' => false,
            'timeout' => $settings->requestTimeout
        ]);
 
        try {
-           $response = $client->request('GET', $clientPath);
+           // Combine $clientUrl and $clientPath so that Guzzle doesn't throw an exception due to IPv6 addresses
+           // https://github.com/guzzle/guzzle/issues/2734
+           // https://github.com/guzzle/guzzle/issues/2364
+           $response = $client->request('GET', $clientUrl.'/'.$clientPath);
 
            if ($response->getStatusCode() === 200) {
                // Request was successful, so decode json response and store as a cookie
